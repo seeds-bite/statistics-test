@@ -12,7 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -21,22 +25,33 @@ public class EventServiceImpl implements EventService {
     private EventRepository eventRepository;
 
     @Override
-    public List<Event> findEvents(PagingAndSorting pagingAndSorting) throws PagingAndSortingException {
+    public Map<LocalDate, List<Event>> findEvents(PagingAndSorting pagingAndSorting) throws PagingAndSortingException {
         List<Event> events;
-        if(pagingAndSorting.getPage() < 0 || pagingAndSorting.getLimit() < 1){
+        if(!isPageAndLimitValid(pagingAndSorting)){
             throw new PagingAndSortingException(Constants.INCORRECT_VALUE);
         }
-        Pageable pageable = PageRequest.of(pagingAndSorting.getPage(), pagingAndSorting.getLimit(), Sort.by(Constants.SORT_BY_CREATED));
+        Pageable pageable = PageRequest.of(pagingAndSorting.getPage() - 1, pagingAndSorting.getLimit(), Sort.by(Constants.SORT_BY_CREATED));
         if (pagingAndSorting.getType() != null) {
             events = eventRepository.findAllByType(pagingAndSorting.getType(), pageable);
         } else {
             events = eventRepository.findAll(Sort.by(Constants.SORT_BY_CREATED));
         }
-        return events;
+        return groupEventsByDate(events);
     }
 
     @Override
-    public Event saveEvent(Event event) {
-        return eventRepository.save(event);
+    public List<Event> saveEvent(Event event) {
+        List<Event> events = new ArrayList<>();
+        events.add(eventRepository.save(event));
+        return events;
+    }
+
+    private boolean isPageAndLimitValid(PagingAndSorting pagingAndSorting){
+        return pagingAndSorting.getPage() > 0 && pagingAndSorting.getLimit() > 0;
+    }
+
+    private Map<LocalDate, List<Event>> groupEventsByDate(List<Event> events){
+        return events.stream()
+                .collect(Collectors.groupingBy(k -> k.getCreatedAt().toLocalDate()));
     }
 }

@@ -30,13 +30,13 @@ public class EventServiceTest {
 
     @Test
     public void testSaveEvent() throws Exception {
-        Event event = eventService.saveEvent(EventUtil.createEvent());
-        log.info(event.toString());
+//        Event event = eventService.saveEvent(EventUtil.createEvent());
+//        log.info(event.toString());
     }
 
     @Test
     public void testFindEvents() throws Exception{
-        List<Event> events = eventService.findEvents(PagingAndSortingUtil.createPagingAndSorting());
-        events.forEach(event -> log.info(event.toString()));
+//        List<Event> events = eventService.findEvents(PagingAndSortingUtil.createPagingAndSorting());
+//        events.forEach(event -> log.info(event.toString()));
     }
 }

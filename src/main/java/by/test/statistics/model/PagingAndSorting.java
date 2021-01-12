@@ -2,8 +2,8 @@ package by.test.statistics.model;
 
 import by.test.statistics.constant.Constants;
 
-
 public class PagingAndSorting {
+
     private int page = Constants.DEFAULT_PAGE_NUMBER;
     private int limit = Constants.DEFAULT_PAGE_LIMIT;
     private EventType type;
@@ -32,6 +32,12 @@ public class PagingAndSorting {
         this.type = type;
     }
 
-    public PagingAndSorting(){}
-
+    @Override
+    public String toString() {
+        return "PagingAndSorting{" +
+                "page=" + page +
+                ", limit=" + limit +
+                ", type=" + type +
+                '}';
+    }
 }

@@ -25,6 +25,6 @@ public class Constants {
     public static final String FAILED_CREATE_EVENT = properties.getProperty("failed.create.event");
     public static final String INCORRECT_VALUE = properties.getProperty("incorrect.value");
     public static final String EVENTS_NOT_FOUND = properties.getProperty("events.not.found");
-
+    public static final String EVENT_CREATED_SUCCESSFULLY = properties.getProperty("event.created.successfully");
 
 }

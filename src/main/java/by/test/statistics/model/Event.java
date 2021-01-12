@@ -2,7 +2,6 @@ package by.test.statistics.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,12 +12,12 @@ public class Event {
     private Long id;
     private String title;
     private String description;
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     private EventType type;
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
@@ -49,13 +48,15 @@ public class Event {
     public void setType(EventType type) {
         this.type = type;
     }
+
     @PrePersist
     void createdAt() {
-        this.createdAt = new Date();
+        this.createdAt = LocalDateTime.now();
     }
 
     public Event(){
     }
+
     public Event(String title, String description, EventType type) {
         this.title = title;
         this.description = description;
@@ -70,12 +71,13 @@ public class Event {
         return id.equals(event.id) &&
                 title.equals(event.title) &&
                 description.equals(event.description) &&
+                createdAt.equals(event.createdAt) &&
                 type == event.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, type);
+        return Objects.hash(id, title, description, createdAt, type);
     }
 
     @Override
@@ -84,6 +86,7 @@ public class Event {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
                 ", type=" + type +
                 '}';
     }
