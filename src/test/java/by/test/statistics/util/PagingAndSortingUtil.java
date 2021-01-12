@@ -8,8 +8,8 @@ public class PagingAndSortingUtil {
 
     public static PagingAndSorting createPagingAndSorting() {
         PagingAndSorting pagingAndSorting = new PagingAndSorting();
-        pagingAndSorting.setLimit(4);
-        pagingAndSorting.setPage(2);
+        pagingAndSorting.setLimit(1);
+        pagingAndSorting.setPage(1);
         pagingAndSorting.setType(EventType.INFO);
         return pagingAndSorting;
     }
